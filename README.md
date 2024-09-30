@@ -4,15 +4,12 @@ forked from [Flipkart/recyclerlistview](https://github.com/Flipkart/recyclerlist
 [![npm version](https://img.shields.io/npm/v/hippy-recycler-view.svg)](https://www.npmjs.com/package/hippy-recycler-view)
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-如果这个项目对您有帮助，请用星星:star2:支持我们。
+如果这个项目对您有帮助，请点击星星🌟支持我们。
 
-This is a high performance listview for React Native and Web with support for complex layouts. JS only with no native dependencies, inspired by both RecyclerView on Android
-and UICollectionView on iOS.
 这是适用于 Hippy 和 Web 的高性能列表视图，支持复杂布局。仅使用 JS，没有本机依赖项，灵感来自 Android 上的 RecyclerView 和 iOS 上的 UICollectionView。
 
 `npm install --save hippy-recycler-view`
-
-For latest beta:  
+最新Beta版:
 `npm install --save hippy-recycler-view@beta`
 
 * **[概述和特点](#概述和特点)**
