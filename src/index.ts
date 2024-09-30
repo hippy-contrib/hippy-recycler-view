@@ -12,6 +12,7 @@ import ProgressiveListView from "./core/ProgressiveListView";
 import { DebugHandlers } from "./core/devutils/debughandlers/DebugHandlers";
 import { ComponentCompat } from "./utils/ComponentCompat";
 import { WindowCorrection } from "./core/ViewabilityTracker";
+import StickyContainer from "./core/StickyContainer";
 
 export {
     ContextProvider,
@@ -37,4 +38,5 @@ export {
     ComponentCompat,
     WindowCorrection,
     WindowCorrectionConfig,
+    StickyContainer,
 };

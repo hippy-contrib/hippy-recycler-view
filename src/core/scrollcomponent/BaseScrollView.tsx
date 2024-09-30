@@ -11,14 +11,10 @@ export interface ScrollViewDefaultProps {
     useWindowScroll: boolean;
 }
 export interface ScrollEvent {
-    nativeEvent: {
-        contentOffset: {
-            x: number,
-            y: number,
-        },
-        layoutMeasurement?: Dimension,
-        contentSize?: Dimension,
-    };
+    contentOffset: { x: number; y: number };
+    contentInset?: { top: number; left: number; bottom: number; right: number };
+    contentSize?: Dimension;
+    layoutMeasurement?: Dimension;
 }
 export default abstract class BaseScrollView extends React.Component<ScrollViewDefaultProps, {}> {
     constructor(props: ScrollViewDefaultProps) {

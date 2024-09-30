@@ -41,7 +41,8 @@ import { ComponentCompat } from "../utils/ComponentCompat";
 import ScrollComponent from "../platform/reactnative/scrollcomponent/ScrollComponent";
 import ViewRenderer from "../platform/reactnative/viewrenderer/ViewRenderer";
 import { DefaultJSItemAnimator as DefaultItemAnimator } from "../platform/reactnative/itemanimators/defaultjsanimator/DefaultJSItemAnimator";
-import { Platform, ScrollView } from "react-native";
+import { Platform, ScrollView } from "@hippy/react";
+// @ts-ignore
 const IS_WEB = !Platform || Platform.OS === "web";
 //#endif
 
@@ -404,29 +405,30 @@ export default class RecyclerListView<P extends RecyclerListViewProps, S extends
 
     public renderCompat(): JSX.Element {
         //TODO:Talha
-        // const {
-        //     layoutProvider,
-        //     dataProvider,
-        //     contextProvider,
-        //     renderAheadOffset,
-        //     onEndReached,
-        //     onEndReachedThreshold,
-        //     onVisibleIndicesChanged,
-        //     initialOffset,
-        //     initialRenderIndex,
-        //     disableRecycling,
-        //     forceNonDeterministicRendering,
-        //     extendedState,
-        //     itemAnimator,
-        //     rowRenderer,
-        //     ...props,
-        // } = this.props;
+        const {
+            layoutProvider,
+            dataProvider,
+            contextProvider,
+            renderAheadOffset,
+            onEndReached,
+            onEndReachedThreshold,
+            onVisibleIndicesChanged,
+            initialOffset,
+            initialRenderIndex,
+            disableRecycling,
+            forceNonDeterministicRendering,
+            extendedState,
+            itemAnimator,
+            rowRenderer,
+            scrollViewProps,
+            ...props} = this.props;
 
         return (
+          // @ts-ignore
             <ScrollComponent
                 ref={(scrollComponent) => this._scrollComponent = scrollComponent as BaseScrollComponent | null}
-                {...this.props}
-                {...this.props.scrollViewProps}
+                {...props}
+                {...scrollViewProps}
                 onScroll={this._onScroll}
                 onSizeChanged={this._onSizeChanged}
                 contentHeight={this._initComplete ? this._virtualRenderer.getLayoutDimension().height : 0}
@@ -695,6 +697,7 @@ export default class RecyclerListView<P extends RecyclerListViewProps, S extends
                 this._checkExpectedDimensionDiscrepancy(itemRect, type, dataIndex);
             }
             return (
+              // @ts-ignore
                 <ViewRenderer key={key} data={data}
                     dataHasChanged={this._dataHasChanged}
                     x={itemRect.x}

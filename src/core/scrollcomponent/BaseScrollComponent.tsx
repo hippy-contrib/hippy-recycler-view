@@ -1,9 +1,10 @@
 import * as React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, ViewStyleProp } from "@hippy/react";
 import { Dimension } from "../dependencies/LayoutProvider";
 import BaseScrollView, { ScrollEvent, ScrollViewDefaultProps } from "./BaseScrollView";
 
 export interface ScrollComponentProps {
+    style?: ViewStyleProp;
     onSizeChanged: (dimensions: Dimension) => void;
     onScroll: (offsetX: number, offsetY: number, rawEvent: ScrollEvent) => void;
     contentHeight: number;

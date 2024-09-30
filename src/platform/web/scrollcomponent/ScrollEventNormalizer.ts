@@ -5,58 +5,54 @@ export class ScrollEventNormalizer {
     public windowEvent: ScrollEvent;
     constructor(target: HTMLDivElement) {
         this.divEvent = {
-            nativeEvent: {
-                contentOffset: {
-                    get x(): number {
-                        return target.scrollLeft;
-                    },
-                    get y(): number {
-                        return target.scrollTop;
-                    },
+            contentOffset: {
+                get x(): number {
+                    return target.scrollLeft;
                 },
-                contentSize: {
-                    get height(): number {
-                        return target.scrollHeight;
-                    },
-                    get width(): number {
-                        return target.scrollWidth;
-                    },
+                get y(): number {
+                    return target.scrollTop;
                 },
-                layoutMeasurement: {
-                    get height(): number {
-                        return target.offsetHeight;
-                    },
-                    get width(): number {
-                        return target.offsetWidth;
-                    },
+            },
+            contentSize: {
+                get height(): number {
+                    return target.scrollHeight;
+                },
+                get width(): number {
+                    return target.scrollWidth;
+                },
+            },
+            layoutMeasurement: {
+                get height(): number {
+                    return target.offsetHeight;
+                },
+                get width(): number {
+                    return target.offsetWidth;
                 },
             },
         };
         this.windowEvent = {
-            nativeEvent: {
-                contentOffset: {
-                    get x(): number {
-                        return window.scrollX === undefined ? window.pageXOffset : window.scrollX;
-                    },
-                    get y(): number {
-                        return window.scrollY === undefined ? window.pageYOffset : window.scrollY;
-                    },
+            contentOffset: {
+                get x(): number {
+                    return target.scrollLeft;
                 },
-                contentSize: {
-                    get height(): number {
-                        return target.offsetHeight;
-                    },
-                    get width(): number {
-                        return target.offsetWidth;
-                    },
+                get y(): number {
+                    return target.scrollTop;
                 },
-                layoutMeasurement: {
-                    get height(): number {
-                        return window.innerHeight;
-                    },
-                    get width(): number {
-                        return window.innerWidth;
-                    },
+            },
+            contentSize: {
+                get height(): number {
+                    return target.offsetHeight;
+                },
+                get width(): number {
+                    return target.offsetWidth;
+                },
+            },
+            layoutMeasurement: {
+                get height(): number {
+                    return window.innerHeight;
+                },
+                get width(): number {
+                    return window.innerWidth;
                 },
             },
         };

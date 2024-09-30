@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { View, ViewStyleProp } from "@hippy/react";
 import RecyclerListView, { RecyclerListViewState, RecyclerListViewProps } from "./RecyclerListView";
 import { ScrollEvent } from "./scrollcomponent/BaseScrollView";
 import StickyObject, { StickyObjectProps } from "./sticky/StickyObject";
@@ -26,7 +26,7 @@ export interface StickyContainerProps {
     overrideRowRenderer?: (type: string | number | undefined, data: any, index: number, extendedState?: object) => JSX.Element | JSX.Element[] | null;
     applyWindowCorrection?: (offsetX: number, offsetY: number, winowCorrection: WindowCorrection) => void;
     renderStickyContainer?: (stickyContent: JSX.Element, index: number, extendedState?: object) => JSX.Element | null;
-    style?: StyleProp<ViewStyle>;
+    style?: ViewStyleProp;
     alwaysStickyFooter?: boolean;
 }
 export interface RecyclerChild extends React.ReactElement<RecyclerListViewProps> {
@@ -73,9 +73,11 @@ export default class StickyContainer<P extends StickyContainerProps> extends Com
             rowRenderer: this._rlvRowRenderer,
         });
         return (
+          // @ts-ignore
             <View style={this.props.style ? this.props.style : { flex: 1 }}>
                 {recycler}
                 {this.props.stickyHeaderIndices ? (
+                  // @ts-ignore
                     <StickyHeader ref={(stickyHeaderRef: any) => this._getStickyHeaderRef(stickyHeaderRef)}
                         stickyIndices={this.props.stickyHeaderIndices}
                         getLayoutForIndex={this._getLayoutForIndex}
@@ -90,6 +92,7 @@ export default class StickyContainer<P extends StickyContainerProps> extends Com
                         getWindowCorrection={this._getCurrentWindowCorrection} />
                 ) : null}
                 {this.props.stickyFooterIndices ? (
+                  // @ts-ignore
                     <StickyFooter ref={(stickyFooterRef: any) => this._getStickyFooterRef(stickyFooterRef)}
                         stickyIndices={this.props.stickyFooterIndices}
                         getLayoutForIndex={this._getLayoutForIndex}

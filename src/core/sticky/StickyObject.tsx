@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import { Animated, StyleProp, ViewStyle } from "react-native";
+import { Animation, AnimationOptions, ViewStyleProp, View } from "@hippy/react";
 import { Layout } from "../layoutmanager/LayoutManager";
 import { Dimension } from "../dependencies/LayoutProvider";
 import RecyclerListViewExceptions from "../exceptions/RecyclerListViewExceptions";
@@ -34,7 +34,7 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
     protected stickyType: StickyType = StickyType.HEADER;
     protected stickyTypeMultiplier: number = 1;
     protected stickyVisiblity: boolean = false;
-    protected containerPosition: StyleProp<ViewStyle>;
+    protected containerPosition?: ViewStyleProp;
     protected currentIndex: number = 0;
     protected currentStickyIndex: number = 0;
     protected visibleIndices: number[] = [];
@@ -55,7 +55,8 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
     private _scrollableWidth: number | undefined;
     private _windowBound: number | undefined;
 
-    private _stickyViewOffset: Animated.Value = new Animated.Value(0);
+    private _stickyViewOffset = new Animation(this._getAnimationOptions({toValue: 0}));
+    private _lastStickyViewOffset = 0;
     private _previousStickyIndex: number = 0;
     private _nextStickyIndex: number = 0;
     private _firstCompute: boolean = true;
@@ -78,6 +79,10 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
         this.stickyViewVisible(this.stickyVisiblity, false);
     }
 
+    public componentWillUnmount(): void {
+        this._stickyViewOffset.destroy();
+    }
+
     public renderCompat(): JSX.Element | null {
         // Add the container style if renderContainer is undefined
 
@@ -85,9 +90,10 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
             (!this.props.renderContainer && [{ position: "absolute", width: this._scrollableWidth }, this.containerPosition])];
 
         const content = (
-            <Animated.View style={containerStyle}>
+          // @ts-ignore
+            <View style={containerStyle}>
                 {this.stickyVisiblity ? this._renderSticky() : null}
-            </Animated.View>
+            </View>
         );
 
         if (this.props.renderContainer) {
@@ -126,12 +132,12 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
                 if (scrollY > this._currentYd - this._previousHeight) {
                     this.currentIndex -= this.stickyTypeMultiplier;
                     const translate = (scrollY - this._currentYd + this._previousHeight) * (-1 * this.stickyTypeMultiplier);
-                    this._stickyViewOffset.setValue(translate);
+                    this._updateAnimation({toValue: translate});
                     this._computeLayouts();
                     this.stickyViewVisible(true);
                 }
             } else {
-                this._stickyViewOffset.setValue(0);
+                this._updateAnimation({toValue: 0});
             }
         }
         if (this._nextStickyIndex !== undefined) {
@@ -142,15 +148,15 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
             if (this._currentHeight && this._nextYd && scrollY && scrollY + this._currentHeight > this._nextYd) {
                 if (scrollY <= this._nextYd) {
                     const translate = (scrollY - this._nextYd + this._currentHeight) * (-1 * this.stickyTypeMultiplier);
-                    this._stickyViewOffset.setValue(translate);
+                    this._updateAnimation({toValue: translate});
                 } else if (scrollY > this._nextYd) {
                     this.currentIndex += this.stickyTypeMultiplier;
-                    this._stickyViewOffset.setValue(0);
+                    this._updateAnimation({toValue: 0});
                     this._computeLayouts();
                     this.stickyViewVisible(true);
                 }
             } else {
-                this._stickyViewOffset.setValue(0);
+                this._updateAnimation({toValue: 0});
             }
         }
     }
@@ -184,6 +190,25 @@ export default abstract class StickyObject<P extends StickyObjectProps> extends 
                 this.onVisibleIndicesChanged(this.visibleIndices);
             }
         }
+    }
+
+    private _getAnimationOptions(options: {toValue: number; }): AnimationOptions {
+        const result: AnimationOptions = {
+            mode: "timing",
+            delay: 0,
+            startValue: this._lastStickyViewOffset,
+            duration: 0,
+            timingFunction: "linear",
+            repeatCount: 0,
+            ...options,
+        };
+        this._lastStickyViewOffset = options.toValue;
+        return result;
+    }
+    private _updateAnimation(options: {toValue: number; }): void {
+        this._stickyViewOffset.pause();
+        this._stickyViewOffset.updateAnimation(this._getAnimationOptions(options));
+        this._stickyViewOffset.start();
     }
 
     private _updateDimensionParams(): void {

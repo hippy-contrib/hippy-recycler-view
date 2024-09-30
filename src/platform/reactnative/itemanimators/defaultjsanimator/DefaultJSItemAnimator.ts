@@ -1,9 +1,12 @@
-import { Animated, Easing, View } from "react-native";
+import {
+    // Animated,
+    View,
+} from "@hippy/react";
 import { BaseItemAnimator } from "../../../../core/ItemAnimator";
 
 interface UnmountAwareView extends View {
     _isUnmountedForRecyclerListView?: boolean;
-    _lastAnimVal?: Animated.ValueXY | null;
+    // _lastAnimVal?: Animated.ValueXY | null;
 }
 
 /**
@@ -38,30 +41,30 @@ export class DefaultJSItemAnimator extends BaseItemAnimator {
             }
         }
         if (fromX !== toX || fromY !== toY) {
-            if (!this.shouldAnimateOnce || this.shouldAnimateOnce && !this._hasAnimatedOnce) {
-                const viewRef = itemRef as UnmountAwareView;
-                const animXY = new Animated.ValueXY({ x: fromX, y: fromY });
-                animXY.addListener((value) => {
-                    if (viewRef._isUnmountedForRecyclerListView) {
-                        animXY.stopAnimation();
-                        return;
-                    }
-                    viewRef.setNativeProps(this._getNativePropObject(value.x, value.y));
-                });
-                if (viewRef._lastAnimVal) {
-                    viewRef._lastAnimVal.stopAnimation();
-                }
-                viewRef._lastAnimVal = animXY;
-                Animated.timing(animXY, {
-                    toValue: { x: toX, y: toY },
-                    duration: 200,
-                    easing: Easing.out(Easing.ease),
-                    useNativeDriver: BaseItemAnimator.USE_NATIVE_DRIVER,
-                }).start(() => {
-                    viewRef._lastAnimVal = null;
-                });
-                return true;
-            }
+            // if (!this.shouldAnimateOnce || this.shouldAnimateOnce && !this._hasAnimatedOnce) {
+            //     const viewRef = itemRef as UnmountAwareView;
+            //     const animXY = new Animated.ValueXY({ x: fromX, y: fromY });
+            //     animXY.addListener((value) => {
+            //         if (viewRef._isUnmountedForRecyclerListView) {
+            //             animXY.stopAnimation();
+            //             return;
+            //         }
+            //         viewRef.setNativeProps(this._getNativePropObject(value.x, value.y));
+            //     });
+            //     if (viewRef._lastAnimVal) {
+            //         viewRef._lastAnimVal.stopAnimation();
+            //     }
+            //     viewRef._lastAnimVal = animXY;
+            //     Animated.timing(animXY, {
+            //         toValue: { x: toX, y: toY },
+            //         duration: 200,
+            //         easing: Easing.out(Easing.ease),
+            //         useNativeDriver: BaseItemAnimator.USE_NATIVE_DRIVER,
+            //     }).start(() => {
+            //         viewRef._lastAnimVal = null;
+            //     });
+            //     return true;
+            // }
         }
         return false;
     }

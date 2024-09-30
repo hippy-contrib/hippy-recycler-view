@@ -1,4 +1,4 @@
-import { LayoutAnimation, Platform, UIManager } from "react-native";
+// import { LayoutAnimation, Platform, UIManager } from "@hippy/react";
 import { BaseItemAnimator } from "../../../core/ItemAnimator";
 
 export class DefaultNativeItemAnimator extends BaseItemAnimator {
@@ -7,9 +7,9 @@ export class DefaultNativeItemAnimator extends BaseItemAnimator {
     private _isTimerOn: boolean = false;
     constructor() {
         super();
-        if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
-            UIManager.setLayoutAnimationEnabledExperimental(true);
-        }
+        // if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+        //     UIManager.setLayoutAnimationEnabledExperimental(true);
+        // }
     }
     public animateWillMount(atX: number, atY: number, itemIndex: number): object | undefined {
         return undefined;
@@ -25,7 +25,7 @@ export class DefaultNativeItemAnimator extends BaseItemAnimator {
     public animateShift(fromX: number, fromY: number, toX: number, toY: number, itemRef: object, itemIndex: number): boolean {
         if (fromX !== toX || fromY !== toY) {
             if (!this.shouldAnimateOnce || this.shouldAnimateOnce && !this._hasAnimatedOnce) {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 this._hasAnimatedOnce = true;
             }
         } else {

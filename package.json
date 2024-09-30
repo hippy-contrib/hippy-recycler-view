@@ -1,6 +1,6 @@
 {
-  "name": "recyclerlistview",
-  "version": "4.2.1",
+  "name": "hippy-recycler-view",
+  "version": "4.2.1.1",
   "description": "The listview that you need and deserve. It was built for performance, uses cell recycling to achieve smooth scrolling.",
   "main": "dist/reactnative/index.js",
   "types": "dist/reactnative/index.d.ts",
@@ -12,43 +12,43 @@
     "release-local": "sh scripts/publish-local.sh"
   },
   "keywords": [
-    "react-native",
+    "hippy",
     "recyclerview",
     "listview",
-    "flatlist-alternative",
-    "flatlist",
     "60fps",
     "cross-platform",
     "web",
-    "react-native-web",
+    "hippy-web",
     "performance"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Flipkart/recyclerlistview"
+    "url": "https://github.com/linjinze999/hippy-recycler-view"
   },
-  "author": "naqvitalha <naqvitalha@gmail.com>",
+  "author": "linjinze999 <linjinze999@163.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Flipkart/recyclerlistview/issues"
+    "url": "https://github.com/linjinze999/hippy-recycler-view/issues"
   },
-  "homepage": "https://github.com/Flipkart/recyclerlistview",
+  "homepage": "https://github.com/linjinze999/hippy-recycler-view",
   "dependencies": {
     "lodash.debounce": "4.0.8",
     "prop-types": "15.8.1",
     "ts-object-utils": "0.0.5"
   },
   "peerDependencies": {
-    "react": ">= 15.2.1",
-    "react-native": ">= 0.30.0"
+    "@hippy/react": "2.14.4",
+    "react": "^17.0.2"
   },
   "devDependencies": {
+    "@hippy/react": "2.14.4",
+    "@types/hippy__react": "^2.13.4",
     "@types/lodash.debounce": "4.0.8",
     "@types/prop-types": "15.5.2",
-    "@types/react": "16.4.7",
-    "@types/react-native": "0.49.5",
+    "@types/react": "17.0.21",
     "@types/resize-observer-browser": "0.1.7",
     "file-directives": "1.4.6",
+    "react": "17.0.2",
     "tslint": "5.11.0",
     "typescript": "4.9.5"
   }

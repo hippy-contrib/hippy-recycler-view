@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LayoutChangeEvent, View, ViewProperties } from "react-native";
+import { LayoutEvent, View, ViewProps } from "@hippy/react";
 import { Dimension } from "../../../core/dependencies/LayoutProvider";
 import { LayoutManager } from "../../../core/layoutmanager/LayoutManager";
 import BaseViewRenderer, { ViewRendererProps } from "../../../core/viewrenderer/BaseViewRenderer";
@@ -12,7 +12,7 @@ import BaseViewRenderer, { ViewRendererProps } from "../../../core/viewrenderer/
  */
 export default class ViewRenderer extends BaseViewRenderer<any> {
     private _dim: Dimension = { width: 0, height: 0 };
-    private _viewRef: React.Component<ViewProperties, React.ComponentState> | null = null;
+    private _viewRef: React.Component<ViewProps, React.ComponentState> | null = null;
     private _layoutManagerRef?: LayoutManager;
     public renderCompat(): JSX.Element {
         const props = this.props.forceNonDeterministicRendering
@@ -65,30 +65,32 @@ export default class ViewRenderer extends BaseViewRenderer<any> {
     }
 
     private _renderItemContainer(props: object, parentProps: ViewRendererProps<any>, children: React.ReactNode): React.ReactNode {
-        return (this.props.renderItemContainer && this.props.renderItemContainer(props, parentProps, children)) || (<View {...props}>{children}</View>);
+        // @ts-ignore
+      return (this.props.renderItemContainer && this.props.renderItemContainer(props, parentProps, children)) || (<View {...props}>{children}</View>);
     }
 
-    private _setRef = (view: React.Component<ViewProperties, React.ComponentState> | null): void => {
+    private _setRef = (view: React.Component<ViewProps, React.ComponentState> | null): void => {
         this._viewRef = view;
     }
 
-    private _onLayout = (event: LayoutChangeEvent): void => {
+    private _onLayout = (event: LayoutEvent): void => {
         //Preventing layout thrashing in super fast scrolls where RN messes up onLayout event
-        const xDiff = Math.abs(this.props.x - event.nativeEvent.layout.x);
-        const yDiff = Math.abs(this.props.y - event.nativeEvent.layout.y);
-        if (xDiff < 1 && yDiff < 1 &&
-            (this.props.height !== event.nativeEvent.layout.height ||
-                this.props.width !== event.nativeEvent.layout.width)) {
-            this._dim.height = event.nativeEvent.layout.height;
-            this._dim.width = event.nativeEvent.layout.width;
+      const layout = event.layout;
+      const xDiff = Math.abs(this.props.x - layout.x);
+      const yDiff = Math.abs(this.props.y - layout.y);
+      if (xDiff < 1 && yDiff < 1 &&
+            (this.props.height !== layout.height ||
+                this.props.width !== layout.width)) {
+            this._dim.height = layout.height;
+            this._dim.width = layout.width;
             if (this.props.onSizeChanged) {
                 this.props.onSizeChanged(this._dim, this.props.index);
             }
         }
 
-        if (this.props.onItemLayout) {
-            this.props.onItemLayout(this.props.index);
-        }
+      if (this.props.onItemLayout) {
+        this.props.onItemLayout(this.props.index);
+      }
     }
 
     private _scheduleForceSizeUpdateTimer = () => {
